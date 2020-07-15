@@ -1,0 +1,29 @@
+{
+    "name": "eazybright/repository-package",
+    "description": "A package for managing repository design pattern",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Kolawole Ezekiel",
+        "email": "doneazy911@gmail.com"
+      }
+    ],
+    "require": {},
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "phpunit/phpunit": "^9.2"
+    },
+    "autoload": {
+        "psr-4": {
+          "Eazybright\\RepositoryPackage\\": "src"
+        }
+      },
+      "extra": {
+        "laravel": {
+            "providers": [
+                "Eazybright\\RepositoryPackage\\RepositoryPackageServiceProvider"
+            ]
+        }
+    }
+}
