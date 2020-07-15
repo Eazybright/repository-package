@@ -25,5 +25,10 @@
                 "Eazybright\\RepositoryPackage\\RepositoryPackageServiceProvider"
             ]
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Eazybright\\RepositoryPackage\\Tests\\": "tests"
+        }
     }
 }
