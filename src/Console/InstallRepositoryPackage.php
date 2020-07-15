@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 
 class InstallRepositoryPackage extends Command
 {
-    protected $signature = 'repositorypackage:create {ModelName}';
+    protected $signature = 'repository:create {ModelName}';
 
     protected $description = 'Install the RepositoryPackage';
 

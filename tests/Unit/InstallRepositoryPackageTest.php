@@ -34,7 +34,7 @@ class InstallRepositoryPackageTest extends TestCase
         // $this->assertFalse(File::exists(app_path('Repositories')));
         // $this->assertFalse(File::exists(app_path('Repositories/Interfaces')));
 
-        Artisan::call('repositorypackage:create', ['ModelName' => 'Sule']);
+        Artisan::call('repository:create', ['ModelName' => 'Sule']);
 
         $this->assertTrue(File::exists(app_path('Repositories/SuleRepository.php')));
         $this->assertTrue(File::exists(app_path('Repositories/Interfaces/SuleRepositoryInterface.php')));
