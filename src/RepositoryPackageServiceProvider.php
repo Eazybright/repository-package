@@ -9,7 +9,7 @@ class RepositoryPackageServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        // 
+        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'repositorypackage'); 
     }
 
     public function boot()
@@ -20,6 +20,10 @@ class RepositoryPackageServiceProvider extends ServiceProvider
             $this->commands([
                 InstallRepositoryPackage::class,
             ]);
+
+            $this->publishes([
+                __DIR__.'/../config/config.php' => config_path('repositorypackage.php'),
+              ], 'config');
         }
     }
 }
