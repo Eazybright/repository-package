@@ -24,42 +24,82 @@ class InstallRepositoryPackage extends Command
             mkdir(app_path('Repositories/Interfaces'), 0775, true);
         }
 
+        if (!file_exists(app_path('Providers'))) {
+            mkdir(app_path('Providers'), 0775, true);
+            $repositoryServiceProviderFileName = app_path('Providers/RepositoryServiceProvider.php');
+            $this->createRepositoryServiceProviderFile($repositoryServiceProviderFileName);
+        }else{
+            $repositoryServiceProviderFileName = app_path('Providers/RepositoryServiceProvider.php');
+            $this->createRepositoryServiceProviderFile($repositoryServiceProviderFileName);
+        }
+
         $repositoryFileName = app_path('Repositories/') . $modelName . 'Repository.php';
         $interfaceFileName = app_path('Repositories/Interfaces/'). $modelName . 'RepositoryInterface.php';
 
         if(! file_exists($repositoryFileName) && ! file_exists($interfaceFileName)) {
-            $interfaceFileContent = <<<EOT
-                                    <?php
 
-                                    namespace App\Repositories\Interfaces;
+            $this->createRepositoryInterfaceFile($interfaceFileName, $modelName);
 
-                                    interface {$modelName}RepositoryInterface
-                                    {
-
-                                    }
-                                    EOT;
-
-            file_put_contents($interfaceFileName, $interfaceFileContent);
-
-            $repositoryFileContent = <<<EOT
-                        <?php
-
-                        namespace App\Repositories;
-
-                        use App\\Repositories\\Interfaces\\{$modelName}RepositoryInterface;
-
-                        class {$modelName}Repository implements {$modelName}RepositoryInterface
-                        {
-
-                        }
-                        EOT;
-
-            file_put_contents($repositoryFileName, $repositoryFileContent);
+            $this->createRepositoryFile($repositoryFileContent, $modelName);
 
             $this->info('Created new Repository '.$modelName.'Repository.php in App\Repositories.');
 
         } else {
             $this->error('Repository Files Already Exists.');
         }
+    }
+
+    protected function createRepositoryServiceProviderFile($repositoryServiceProviderFileName)
+    {
+        $repositoryServiceProviderFileContent = <<<EOT
+                    <?php
+
+                    namespace App\Providers;
+                    
+                    use Illuminate\Support\ServiceProvider;
+
+                    class RepositoryServiceProvider extends ServiceProvider
+                    {
+                        public function boot()
+                        {
+                            
+                        }
+                    }
+                EOT;
+        file_put_contents($repositoryServiceProviderFileName, $repositoryServiceProviderFileContent);
+    }
+
+    protected function createRepositoryInterfaceFile($interfaceFileName, $modelName)
+    {
+        $interfaceFileContent = <<<EOT
+                                <?php
+
+                                namespace App\Repositories\Interfaces;
+
+                                interface {$modelName}RepositoryInterface
+                                {
+
+                                }
+                                EOT;
+
+        file_put_contents($interfaceFileName, $interfaceFileContent);
+    }
+
+    protected function createRepositoryFile($repositoryFileContent, $modelName)
+    {
+        $repositoryFileContent = <<<EOT
+                <?php
+
+                namespace App\Repositories;
+
+                use App\\Repositories\\Interfaces\\{$modelName}RepositoryInterface;
+
+                class {$modelName}Repository implements {$modelName}RepositoryInterface
+                {
+
+                }
+            EOT;
+
+        file_put_contents($repositoryFileName, $repositoryFileContent);
     }
 }
