@@ -4,15 +4,14 @@ namespace Eazybright\RepositoryPackage;
 
 use Illuminate\Support\ServiceProvider;
 use Eazybright\RepositoryPackage\Console\InstallRepositoryPackage;
-// use Eazybright\RepositoryPackage\CreateRepositoryFiles;
 
 class RepositoryPackageServiceProvider extends ServiceProvider
 {
-    public function register()
-    {
-        // 
-    }
-
+    /**
+     * Bootstrap RepositoryPackageServiceProvider.
+     *
+     * @return void
+     */
     public function boot()
     {
         if ($this->app->runningInConsole()) {
