@@ -21,11 +21,11 @@ Next, create a repostory file by running:
 php artisan repository:create Blog
 ```
 
-Make sure to provide your own argument name when running the above command, I used 'Blog" as an example.
+Make sure to provide your own argument name when running the above command, I used *Blog* as an example.
 
 Once the command run, it creates the repository files `App\Repositories\BlogRepository.php`, and `App\Repositories\Interfaces\BlogRepositoryInterface.php` and also create a service provider file in `App\Providers\RepositoryServiceProvider.php`.
 
-You need to register the service provider. Open up `config/app.php` and add the following to the providers key.
+You need to register the service provider. Open up `config/app.php` and add the following to the `providers` key.
 
 ```php
 'providers' => [
