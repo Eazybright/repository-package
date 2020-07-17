@@ -3,12 +3,22 @@
 namespace Eazybright\RepositoryPackage\Console;
 
 use Illuminate\Console\Command;
+use Eazybright\RepositoryPackage\CreateRepositoryFiles;
 
 class InstallRepositoryPackage extends Command
 {
     protected $signature = 'repository:create {ModelName}';
 
-    protected $description = 'Install the RepositoryPackage';
+    protected $description = 'Install the Repository Package';
+
+    public $createFile;
+
+    public function __construct(CreateRepositoryFiles $createFile)
+    {
+        parent::__construct();
+
+        $this->createFile = $createFile;
+    }
 
     public function handle()
     {
@@ -26,11 +36,9 @@ class InstallRepositoryPackage extends Command
 
         if (!file_exists(app_path('Providers'))) {
             mkdir(app_path('Providers'), 0775, true);
-            $repositoryServiceProviderFileName = app_path('Providers/RepositoryServiceProvider.php');
-            $this->createRepositoryServiceProviderFile($repositoryServiceProviderFileName);
-        }else{
-            $repositoryServiceProviderFileName = app_path('Providers/RepositoryServiceProvider.php');
-            $this->createRepositoryServiceProviderFile($repositoryServiceProviderFileName);
+            $this->createFile->createRepositoryServiceProviderFile();
+        }elseif(!file_exists(app_path('Providers/RepositoryServiceProvider.php'))){
+            $this->createFile->createRepositoryServiceProviderFile();
         }
 
         $repositoryFileName = app_path('Repositories/') . $modelName . 'Repository.php';
@@ -38,68 +46,14 @@ class InstallRepositoryPackage extends Command
 
         if(! file_exists($repositoryFileName) && ! file_exists($interfaceFileName)) {
 
-            $this->createRepositoryInterfaceFile($interfaceFileName, $modelName);
+            $this->createFile->createRepositoryInterfaceFile($interfaceFileName, $modelName);
 
-            $this->createRepositoryFile($repositoryFileContent, $modelName);
+            $this->createFile->createRepositoryFile($repositoryFileName, $modelName);
 
-            $this->info('Created new Repository '.$modelName.'Repository.php in App\Repositories.');
+            $this->info('Created new Repository successfully in App\Repositories directory');
 
         } else {
             $this->error('Repository Files Already Exists.');
         }
-    }
-
-    protected function createRepositoryServiceProviderFile($repositoryServiceProviderFileName)
-    {
-        $repositoryServiceProviderFileContent = <<<EOT
-                    <?php
-
-                    namespace App\Providers;
-                    
-                    use Illuminate\Support\ServiceProvider;
-
-                    class RepositoryServiceProvider extends ServiceProvider
-                    {
-                        public function boot()
-                        {
-                            
-                        }
-                    }
-                EOT;
-        file_put_contents($repositoryServiceProviderFileName, $repositoryServiceProviderFileContent);
-    }
-
-    protected function createRepositoryInterfaceFile($interfaceFileName, $modelName)
-    {
-        $interfaceFileContent = <<<EOT
-                                <?php
-
-                                namespace App\Repositories\Interfaces;
-
-                                interface {$modelName}RepositoryInterface
-                                {
-
-                                }
-                                EOT;
-
-        file_put_contents($interfaceFileName, $interfaceFileContent);
-    }
-
-    protected function createRepositoryFile($repositoryFileContent, $modelName)
-    {
-        $repositoryFileContent = <<<EOT
-                <?php
-
-                namespace App\Repositories;
-
-                use App\\Repositories\\Interfaces\\{$modelName}RepositoryInterface;
-
-                class {$modelName}Repository implements {$modelName}RepositoryInterface
-                {
-
-                }
-            EOT;
-
-        file_put_contents($repositoryFileName, $repositoryFileContent);
     }
 }

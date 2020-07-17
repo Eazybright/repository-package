@@ -9,14 +9,16 @@
         "email": "doneazy911@gmail.com"
       }
     ],
-    "require": {},
+    "require": {
+      "illuminate/support": "^5.0|^6.0|^7.0"
+    },
     "require-dev": {
         "orchestra/testbench": "^4.0",
         "phpunit/phpunit": "^9.2"
     },
     "autoload": {
         "psr-4": {
-          "Eazybright\\RepositoryPackage\\": "src"
+          "Eazybright\\RepositoryPackage\\": "src/"
         }
       },
       "extra": {
@@ -34,5 +36,6 @@
     "scripts": {
       "test": "vendor/bin/phpunit",
       "test-f": "vendor/bin/phpunit --filter"
-    }
+    },
+    "minimum-stability": "dev"
 }
