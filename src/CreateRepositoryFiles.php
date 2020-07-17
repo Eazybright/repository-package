@@ -18,7 +18,7 @@ class CreateRepositoryFiles
 
             class RepositoryServiceProvider extends ServiceProvider
             {
-                public function boot()
+                public function register()
                 {
                     //bind your interface here
                 }

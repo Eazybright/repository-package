@@ -23,15 +23,31 @@ php artisan repository:create Blog
 
 Make sure to provide your own argument name when running the above command, I used *Blog* as an example.
 
-Once the command run, it creates the repository files `App\Repositories\BlogRepository.php`, and `App\Repositories\Interfaces\BlogRepositoryInterface.php` and also create a service provider file in `App\Providers\RepositoryServiceProvider.php`.
+Once the command run, it creates the repository files `App\Repositories\BlogRepository.php`, `App\Repositories\Interfaces\BlogRepositoryInterface.php` and also create a service provider file in `App\Providers\RepositoryServiceProvider.php`.
 
 You need to register the service provider. Open up `config/app.php` and add the following to the `providers` key.
 
 ```php
-'providers' => [
-    App\Providers\AppServiceProvider::class,
+    'providers' => [
+        App\Providers\AppServiceProvider::class,
+        ...
+        App\Providers\RepositoryServiceProvider::class,
+        ...
+    ]
+```
+
+You need to register the Repository file into `RepositoryServiceProvider::class` whenever it is created.
+The `use App\Repositories\Interfaces\BlogRepositoryInterface` namespace has been imported already.
+
+```php
+    <?php
     ...
-    App\Providers\RepositoryServiceProvider::class,
+        public function register()
+        {
+            $this->app->bind(
+                BlogRepositoryInterface::class,
+                BlogRepository::class
+            )
+        }
     ...
-]
 ```
