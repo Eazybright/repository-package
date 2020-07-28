@@ -12,7 +12,7 @@ This package main purpose is to manage repository design pattern in your laravel
 To install this package run:
 
 ```bash
-composer require eazybright/repository-package
+composer require-dev eazybright/repository-package
 ```
 This will install the package into your project.
 
