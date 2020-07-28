@@ -3,6 +3,12 @@
     "description": "A package for managing repository design pattern",
     "type": "library",
     "license": "MIT",
+    "keywords": [
+        "package",
+        "laravel",
+        "repository",
+        "eazybright"
+    ],
     "authors": [
       {
         "name": "Kolawole Ezekiel",
