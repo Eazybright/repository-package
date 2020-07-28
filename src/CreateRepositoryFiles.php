@@ -32,7 +32,7 @@ class CreateRepositoryFiles
         //add repository interface namespace to respositoryserviceprovider file
         $filename = app_path('Providers/RepositoryServiceProvider.php'); // the file to change
         $search = 'use Illuminate\Support\ServiceProvider;'; // the content after which you want to insert new stuff
-        $insert = "use App\\Repositories\\Interfaces\\$modelName".'RepositoryInterface'; // new namespace to be added
+        $insert = "use App\\Repositories\\Interfaces\\$modelName".'RepositoryInterface;'; // new namespace to be added
         $replace = $search. "\n". $insert;
 
         file_put_contents($filename, str_replace($search, $replace, file_get_contents($filename))); //replace the content here
