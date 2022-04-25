@@ -36,12 +36,16 @@ You need to register the service provider. Open up `config/app.php` and add the 
 ]
 ```
 
-You need to register the Repository file into `RepositoryServiceProvider::class` whenever it is created.
-The `App\Repositories\Interfaces\BlogRepositoryInterface` namespace has been imported already.
+The Repository file will be registered into `RepositoryServiceProvider::class` whenever it is created.
 
 ```php
 <?php
 ...
+    use App\Repositories\Interfaces\BlogRepositoryInterface;
+    use App\Repositories\BlogRepository;
+
+    ...
+
     public function register()
     {
         $this->app->bind(
