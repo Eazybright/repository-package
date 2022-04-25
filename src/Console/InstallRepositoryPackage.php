@@ -67,6 +67,9 @@ class InstallRepositoryPackage extends Command
         $repositoryFileName = app_path('Repositories/') . $modelName . 'Repository.php';
         $interfaceFileName = app_path('Repositories/Interfaces/'). $modelName . 'RepositoryInterface.php';
 
+        // bind the newly created repository
+        $this->createFile->registerRepositoryClass($modelName);
+
         //create the repository files and interfaces in App\Repostories and App\Repostories\Interfaces folders
         if(! file_exists($repositoryFileName) && ! file_exists($interfaceFileName)) {
 

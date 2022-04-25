@@ -31,12 +31,13 @@ class CreateRepositoryFiles
     {
         //add repository interface namespace to respositoryserviceprovider file
         $filename = app_path('Providers/RepositoryServiceProvider.php'); // the file to change
-        $search = 'use Illuminate\Support\ServiceProvider;'; // the content after which you want to insert new stuff
+        $search_service_provider = 'use Illuminate\Support\ServiceProvider;'; // the content after which you want to insert new stuff
         $interface_namespace = "use App\\Repositories\\Interfaces\\$modelName".'RepositoryInterface;'; // new namespace to be added
         $repository_namespace = "use App\\Repositories\\$modelName".'Repository;';
-        $replace = $search. "\n". $interface_namespace. "\n". $repository_namespace;
+        $replace = $search_service_provider. "\n". $interface_namespace. "\n". $repository_namespace;
 
-        file_put_contents($filename, str_replace($search, $replace, file_get_contents($filename))); //replace the content here
+        file_put_contents($filename, str_replace($search_service_provider, $replace, file_get_contents($filename))); //replace the content here
+
 
         //create repository interface file into App\Repositories\Interfaces folder
         $interfaceFileContent = <<<EOT
@@ -71,5 +72,17 @@ class CreateRepositoryFiles
             EOT;
 
         file_put_contents($repositoryFileName, $repositoryFileContent);
+    }
+
+    public function registerRepositoryClass($modelName)
+    {
+      $filename = app_path('Providers/RepositoryServiceProvider.php'); // the file to change
+      $interface_name = $modelName.'RepositoryInterface';
+      $repository_name = $modelName.'Repository';
+      $search = '//bind your interface here';
+      $repository_binding = '       $this->app->bind('.$interface_name.'::class, '.$repository_name.'::class);';
+      $replace = $search."\n".$repository_binding;
+
+      file_put_contents($filename, str_replace($search, $replace, file_get_contents($filename)));
     }
 }
